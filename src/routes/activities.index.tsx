@@ -12,9 +12,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/activities/")({
   head: () => ({
     meta: [
-      { title: "活動｜智醒樂活 Beyond Scroll" },
+      { title: "活動｜智齡樂活 Silver Spark" },
       { name: "description", content: "健康、藝術文化、音樂、園藝、義工主題線下活動，仲可以搵街坊結伴同行（示範）。" },
-      { property: "og:title", content: "線下活動｜智醒樂活 Beyond Scroll" },
+      { property: "og:title", content: "線下活動｜智齡樂活 Silver Spark" },
       { property: "og:description", content: "健康、藝術文化、音樂、園藝、義工主題線下活動同結伴同行（示範）。" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

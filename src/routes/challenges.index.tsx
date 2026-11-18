@@ -11,9 +11,9 @@ import { COURSES, type Course } from "@/lib/demo-data";
 export const Route = createFileRoute("/challenges/")({
   head: () => ({
     meta: [
-      { title: "挑戰｜智醒樂活 Beyond Scroll" },
+      { title: "挑戰｜智齡樂活 Silver Spark" },
       { name: "description", content: "散步計時記錄、跟做伸展運動同眼部運動，完成後可以分享到 App 內朋友圈。" },
-      { property: "og:title", content: "今日挑戰｜智醒樂活 Beyond Scroll" },
+      { property: "og:title", content: "今日挑戰｜智齡樂活 Silver Spark" },
       { property: "og:description", content: "散步、伸展運動、眼部運動，一按就開始。" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -20,7 +20,7 @@ export const Route = createFileRoute("/challenges/course/$courseId")({
   },
   head: ({ params }) => {
     const c = getCourse(params.courseId);
-    const title = c ? `${c.title}｜${WORKOUT_LABEL[c.type]}｜智醒樂活 Beyond Scroll` : "跟做課程｜智醒樂活 Beyond Scroll";
+    const title = c ? `${c.title}｜${WORKOUT_LABEL[c.type]}｜智齡樂活 Silver Spark` : "跟做課程｜智齡樂活 Silver Spark";
     const desc = c ? `${c.minutes} 分鐘跟做課程：${c.summary}` : "跟做運動課程";
     return {
       meta: [

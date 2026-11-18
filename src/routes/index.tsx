@@ -6,15 +6,16 @@ import heroPark from "@/assets/hero-park.jpg";
 import { useAppState } from "@/components/app/AppStateProvider";
 import { CheckInStats } from "@/components/app/CheckInCalendar";
 import { SectionTitle } from "@/components/app/common";
+import { ScreenTimeCard } from "@/components/app/ScreenTimeCard";
 import { WorkoutRow } from "@/components/app/workout-ui";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "首頁｜智醒樂活 Beyond Scroll" },
-      { name: "description", content: "開始散步、跟做伸展運動同眼部運動，記錄每日活動，同朋友分享。" },
-      { property: "og:title", content: "智醒樂活 Beyond Scroll｜首頁" },
-      { property: "og:description", content: "香港長者日常活動記錄、跟做運動同朋友圈示範 App。" },
+      { title: "首頁｜智齡樂活 Silver Spark" },
+      { name: "description", content: "開始散步、跟做伸展運動同眼部運動，記錄每日活動，同朋友分享，建立健康數位生活。" },
+      { property: "og:title", content: "智齡樂活 Silver Spark｜首頁" },
+      { property: "og:description", content: "幫助長者放低短視頻，將時間投入益腦活動、運動、興趣同真實社交嘅示範 App。" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -42,12 +43,16 @@ function HomePage() {
     <div className="space-y-7">
       <section className="bg-gradient-hero px-5 pb-6 pt-6">
         <p className="text-base font-bold text-primary">
-          智醒樂活 <span className="font-medium text-muted-foreground">Beyond Scroll</span>
+          智齡樂活 <span className="font-medium text-muted-foreground">Silver Spark</span>
         </p>
         <p className="text-lg text-muted-foreground">{date || "\u00a0"}</p>
         <h1 className="mt-1 text-3xl font-bold leading-tight text-primary-deep">陳伯伯，{hello}！</h1>
         <p className="mt-1 text-lg">今日想郁動吓邊樣？</p>
         <img src={heroPark} alt="一對長者夫婦喺公園散步嘅插畫" width={1024} height={768} className="mt-5 aspect-[16/9] w-full rounded-4xl object-cover shadow-[var(--shadow-card)]" />
+      </section>
+
+      <section className="px-5">
+        <ScreenTimeCard />
       </section>
 
       <section className="space-y-3 px-5">

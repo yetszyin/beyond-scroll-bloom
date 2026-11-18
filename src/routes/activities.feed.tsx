@@ -10,9 +10,9 @@ import { formatDateKey } from "@/lib/workouts";
 export const Route = createFileRoute("/activities/feed")({
   head: () => ({
     meta: [
-      { title: "朋友圈｜智醒樂活 Beyond Scroll" },
+      { title: "朋友圈｜智齡樂活 Silver Spark" },
       { name: "description", content: "睇吓朋友嘅散步、伸展同眼部運動分享（App 內示範朋友圈）。" },
-      { property: "og:title", content: "朋友圈｜智醒樂活 Beyond Scroll" },
+      { property: "og:title", content: "朋友圈｜智齡樂活 Silver Spark" },
       { property: "og:description", content: "App 內示範朋友圈：分享每日活動。" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

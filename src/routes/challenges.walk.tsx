@@ -12,9 +12,9 @@ import { formatClock, toDateKey, type Workout } from "@/lib/workouts";
 export const Route = createFileRoute("/challenges/walk")({
   head: () => ({
     meta: [
-      { title: "散步計時｜智醒樂活 Beyond Scroll" },
+      { title: "散步計時｜智齡樂活 Silver Spark" },
       { name: "description", content: "按開始散步計時，行完手動填寫距離，記錄每次散步。" },
-      { property: "og:title", content: "散步計時｜智醒樂活 Beyond Scroll" },
+      { property: "og:title", content: "散步計時｜智齡樂活 Silver Spark" },
       { property: "og:description", content: "按開始散步計時，行完手動填寫距離。" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

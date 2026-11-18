@@ -15,7 +15,7 @@ export const Route = createFileRoute("/activities/$theme")({
   },
   head: ({ params }) => {
     const theme = getTheme(params.theme);
-    const title = theme ? `${theme.name}活動｜智醒樂活 Beyond Scroll` : "活動｜智醒樂活 Beyond Scroll";
+    const title = theme ? `${theme.name}活動｜智齡樂活 Silver Spark` : "活動｜智齡樂活 Silver Spark";
     const desc = theme ? `${theme.name}主題精選活動：${theme.featured.title}` : "主題活動";
     return {
       meta: [

@@ -13,9 +13,9 @@ import { FRIENDS, getActivity } from "@/lib/demo-data";
 export const Route = createFileRoute("/me")({
   head: () => ({
     meta: [
-      { title: "我的｜智醒樂活 Beyond Scroll" },
+      { title: "我的｜智齡樂活 Silver Spark" },
       { name: "description", content: "陳伯伯嘅打卡日曆、活動紀錄同好友（示範用戶）。" },
-      { property: "og:title", content: "我的｜智醒樂活 Beyond Scroll" },
+      { property: "og:title", content: "我的｜智齡樂活 Silver Spark" },
       { property: "og:description", content: "個人打卡日曆同活動紀錄（示範）。" },
       { property: "og:type", content: "profile" },
       { name: "twitter:card", content: "summary_large_image" },
