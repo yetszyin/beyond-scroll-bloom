@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+
+- Front-end only demo: all app state lives in `src/lib/app-state.ts` (pure reducer) persisted to localStorage via `AppStateProvider`; no backend, login or API — the brief requires nothing to be really submitted.
+- All demo content (activities, tasks, friends, screen-time numbers) lives in `src/lib/demo-data.ts`; only sourced official events may be marked `official: true`, everything else must be labelled sample content.
+- Layout is a single mobile column (max 480px) with a fixed bottom nav rendered from `src/routes/__root.tsx`.
