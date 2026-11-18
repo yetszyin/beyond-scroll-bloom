@@ -51,6 +51,9 @@ function HomePage() {
       <section className="bg-gradient-hero px-5 pb-6 pt-6">
         <div className="flex items-start justify-between gap-3">
           <div>
+            <p className="text-base font-bold text-primary">
+              智醒樂活 <span className="font-medium text-muted-foreground">Beyond Scroll</span>
+            </p>
             <p className="text-lg text-muted-foreground">{date || "\u00a0"}</p>
             <h1 className="mt-1 text-3xl font-bold leading-tight text-primary-deep">
               陳伯伯，{hello}！
