@@ -141,20 +141,6 @@ export function getActivity(id: string): Activity | undefined {
   return THEMES.map((t) => t.featured).find((a) => a.id === id);
 }
 
-export interface DailyTask {
-  id: string;
-  title: string;
-  hint: string;
-  emoji: string;
-}
-
-export const DAILY_TASKS: DailyTask[] = [
-  { id: "water", title: "飲一杯暖水", hint: "慢慢飲，潤吓喉", emoji: "💧" },
-  { id: "chat", title: "同屋企人或朋友傾偈 5 分鐘", hint: "打個電話問候吓", emoji: "☎️" },
-  { id: "sun", title: "落街曬太陽 10 分鐘", hint: "記得帶定帽同水", emoji: "☀️" },
-  { id: "rest-eyes", title: "放低手機，望遠 20 秒", hint: "讓眼睛休息一陣", emoji: "👀" },
-];
-
 export const FRIENDS = [
   { id: "lee", name: "李婆婆", note: "晨運好拍檔" },
   { id: "wong", name: "黃姨姨", note: "合唱團團友" },
@@ -173,21 +159,158 @@ export const DEMO_BUDDY_POST = {
   baseJoined: 2,
 };
 
-/** Demo-only screen time numbers. Never presented as real monitoring. */
-export const DEMO_SCREEN_TIME = {
-  totalMinutes: 135,
-  goalMinutes: 120,
-  breakdown: [
-    { label: "視像通話", minutes: 35 },
-    { label: "睇新聞", minutes: 40 },
-    { label: "短片", minutes: 60 },
-  ],
-};
-
-export function formatMinutes(m: number): string {
-  const h = Math.floor(m / 60);
-  const r = m % 60;
-  if (h === 0) return `${r} 分鐘`;
-  if (r === 0) return `${h} 小時`;
-  return `${h} 小時 ${r} 分`;
+export interface CourseStep {
+  text: string;
+  seconds: number;
 }
+
+export interface Course {
+  id: string;
+  type: "stretch" | "eye";
+  title: string;
+  minutes: number;
+  level: string;
+  summary: string;
+  tips: string[];
+  steps: CourseStep[];
+  /** Real video URL once available. Until then the player shows a clearly-labelled placeholder. */
+  videoUrl?: string;
+}
+
+export const COURSES: Course[] = [
+  {
+    id: "stretch-chair",
+    type: "stretch",
+    title: "椅上全身伸展",
+    minutes: 8,
+    level: "入門・坐低做",
+    summary: "坐喺有靠背嘅椅度，由頸到腳慢慢伸展，郁動全身關節。",
+    tips: ["揀一張穩陣、有靠背嘅椅", "每個動作慢慢做，唔好閉氣", "如有任何不適，請即停止"],
+    steps: [
+      { text: "坐直，雙腳踏實地面，慢慢深呼吸", seconds: 60 },
+      { text: "頭部慢慢向左、向右轉", seconds: 60 },
+      { text: "雙肩向後轉圈", seconds: 60 },
+      { text: "雙手舉高，向左右兩邊側伸", seconds: 90 },
+      { text: "輪流伸直雙腿，腳尖向上", seconds: 90 },
+      { text: "腳踝順時針、逆時針轉圈", seconds: 60 },
+      { text: "放鬆雙手，慢慢深呼吸收操", seconds: 60 },
+    ],
+  },
+  {
+    id: "stretch-shoulder",
+    type: "stretch",
+    title: "肩頸放鬆",
+    minutes: 5,
+    level: "入門・坐企都得",
+    summary: "幾個簡單動作，郁吓膊頭同頸。",
+    tips: ["動作幅度以舒服為準", "保持自然呼吸"],
+    steps: [
+      { text: "坐直，膊頭放鬆向下", seconds: 45 },
+      { text: "頭部慢慢側向左邊，再到右邊", seconds: 60 },
+      { text: "膊頭向上提起，再慢慢放低", seconds: 60 },
+      { text: "雙手交叉向前推，背部微微拱起", seconds: 60 },
+      { text: "慢慢深呼吸，放鬆收操", seconds: 75 },
+    ],
+  },
+  {
+    id: "stretch-legs",
+    type: "stretch",
+    title: "坐姿腿部伸展",
+    minutes: 6,
+    level: "入門・坐低做",
+    summary: "坐住都可以郁動雙腿，適合行路前熱身。",
+    tips: ["坐喺椅嘅前半部", "手可以扶住椅邊保持平衡"],
+    steps: [
+      { text: "坐喺椅前半部，雙腳踏地", seconds: 45 },
+      { text: "輪流提起膝頭，好似原地踏步", seconds: 90 },
+      { text: "伸直右腿，腳尖向上，再換左腿", seconds: 90 },
+      { text: "腳跟、腳尖輪流踮起", seconds: 60 },
+      { text: "放鬆雙腿，深呼吸收操", seconds: 75 },
+    ],
+  },
+  {
+    id: "eye-basic",
+    type: "eye",
+    title: "眼部放鬆操",
+    minutes: 3,
+    level: "入門・隨時做",
+    summary: "放低手機，跟住做幾個簡單動作，讓眼睛休息一陣。",
+    tips: ["做之前先放低手機或平板", "動作輕柔，唔好用力按眼"],
+    steps: [
+      { text: "輕輕眨眼 10 次", seconds: 30 },
+      { text: "望向遠處景物", seconds: 40 },
+      { text: "眼球慢慢向上、下、左、右望", seconds: 40 },
+      { text: "眼球慢慢轉圈", seconds: 40 },
+      { text: "搓暖雙手，輕輕敷住雙眼", seconds: 30 },
+    ],
+  },
+  {
+    id: "eye-focus",
+    type: "eye",
+    title: "遠近對焦練習",
+    minutes: 4,
+    level: "入門・隨時做",
+    summary: "輪流望近處同遠處，讓眼睛轉換一下焦點。",
+    tips: ["喺光線充足、安全嘅地方做", "如感到不適請即停止"],
+    steps: [
+      { text: "伸出手指放喺面前，望住指尖", seconds: 40 },
+      { text: "轉望窗外遠處景物", seconds: 40 },
+      { text: "再望返指尖", seconds: 40 },
+      { text: "再望遠處，重複幾次", seconds: 60 },
+      { text: "閉上眼睛，慢慢深呼吸", seconds: 60 },
+    ],
+  },
+];
+
+export function getCourse(id: string): Course | undefined {
+  return COURSES.find((c) => c.id === id);
+}
+
+export function courseSeconds(c: Course): number {
+  return c.steps.reduce((sum, s) => sum + s.seconds, 0);
+}
+
+export interface DemoFeedPost {
+  id: string;
+  author: string;
+  type: "walk" | "stretch" | "eye";
+  when: string;
+  durationSec: number;
+  distanceKm?: number;
+  courseTitle?: string;
+  text: string;
+  baseLikes: number;
+}
+
+export const DEMO_FEED_POSTS: DemoFeedPost[] = [
+  {
+    id: "demo-feed-lee",
+    author: "李婆婆",
+    type: "walk",
+    when: "今日 08:15",
+    durationSec: 35 * 60,
+    distanceKm: 2.1,
+    text: "朝早同老伴行公園，空氣好好！",
+    baseLikes: 6,
+  },
+  {
+    id: "demo-feed-wong",
+    author: "黃姨姨",
+    type: "stretch",
+    when: "昨日 16:40",
+    durationSec: 8 * 60,
+    courseTitle: "椅上全身伸展",
+    text: "睇完電視跟住做，膊頭鬆咗好多。",
+    baseLikes: 4,
+  },
+  {
+    id: "demo-feed-cheung",
+    author: "張伯伯",
+    type: "eye",
+    when: "昨日 21:05",
+    durationSec: 3 * 60,
+    courseTitle: "眼部放鬆操",
+    text: "放低手機休息吓，聽日再嚟！",
+    baseLikes: 3,
+  },
+];

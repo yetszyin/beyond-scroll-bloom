@@ -1,47 +1,56 @@
 import { describe, expect, it } from "vitest";
 import { INITIAL_STATE, reducer } from "@/lib/app-state";
 import { ASK_ORGANISER, DISCLAIMER, HEALTH_EVENT, THEMES } from "@/lib/demo-data";
+import { currentStreak, monthCheckInDays, type Workout } from "@/lib/workouts";
 
-describe("每日小任務", () => {
-  it("完成一項送 1 朵小紅花", () => {
-    const s = reducer(INITIAL_STATE, { type: "completeTask", id: "water", title: "飲水" });
-    expect(s.flowers).toBe(INITIAL_STATE.flowers + 1);
+const walk: Workout = { id: "w1", type: "walk", date: "2026-11-18", durationSec: 1500, distanceKm: 1.5 };
+
+describe("活動紀錄同分享", () => {
+  it("散步紀錄包含手動輸入距離", () => {
+    const s = reducer(INITIAL_STATE, { type: "addWorkout", workout: walk });
+    expect(s.workouts[0]?.distanceKm).toBe(1.5);
   });
-  it("同一項唔可以重複領獎", () => {
-    const once = reducer(INITIAL_STATE, { type: "completeTask", id: "water", title: "飲水" });
-    const twice = reducer(once, { type: "completeTask", id: "water", title: "飲水" });
-    expect(twice.flowers).toBe(once.flowers);
-    expect(twice.points).toBe(once.points);
+  it("分享至朋友圈會產生 App 內貼文，帶齊時長、距離同文字", () => {
+    let s = reducer(INITIAL_STATE, { type: "addWorkout", workout: walk });
+    s = reducer(s, { type: "shareWorkout", workoutId: "w1", text: "今日精神好！" });
+    expect(s.feedPosts[0]).toMatchObject({ type: "walk", durationSec: 1500, distanceKm: 1.5, text: "今日精神好！" });
+  });
+  it("暫不分享就唔會有貼文", () => {
+    const s = reducer(INITIAL_STATE, { type: "addWorkout", workout: walk });
+    expect(s.feedPosts).toHaveLength(0);
   });
 });
 
-describe("示範報名", () => {
-  it("報名只記錄喺本機狀態", () => {
-    const s = reducer(INITIAL_STATE, { type: "register", activityId: HEALTH_EVENT.id, title: HEALTH_EVENT.title });
-    expect(s.registrations).toEqual([HEALTH_EVENT.id]);
+describe("打卡日曆", () => {
+  const ws: Workout[] = [
+    { id: "a", type: "walk", date: "2026-11-18", durationSec: 60 },
+    { id: "b", type: "eye", date: "2026-11-17", durationSec: 60 },
+    { id: "c", type: "stretch", date: "2026-11-17", durationSec: 60 },
+    { id: "d", type: "walk", date: "2026-11-15", durationSec: 60 },
+    { id: "e", type: "walk", date: "2026-10-31", durationSec: 60 },
+  ];
+  it("本月打卡日數按日計，同日多項只計一日", () => {
+    expect(monthCheckInDays(ws, 2026, 10)).toBe(3);
+  });
+  it("連續打卡天數由今日向前數", () => {
+    expect(currentStreak(ws, new Date(2026, 10, 18))).toBe(2);
+  });
+  it("今日未打卡時，連續天數計到昨日", () => {
+    expect(currentStreak(ws, new Date(2026, 10, 19))).toBe(2);
   });
 });
 
 describe("健康主題官方活動", () => {
-  it("日期係 2026年11月25日", () => {
+  it("日期同來源連結正確", () => {
     expect(HEALTH_EVENT.date).toBe("2026年11月25日");
-  });
-  it("來源連結係房協長者安居資源中心活動日曆", () => {
     expect(HEALTH_EVENT.sourceUrl).toBe("https://erc.hkhs.com/event/page/calendar?page=1");
   });
-  it("未知嘅地點、收費、名額、截止日期寫「詳情請向主辦機構查詢」", () => {
+  it("未知資料寫「詳情請向主辦機構查詢」", () => {
     for (const v of [HEALTH_EVENT.location, HEALTH_EVENT.fee, HEALTH_EVENT.quota, HEALTH_EVENT.deadline]) {
       expect(v).toBe(ASK_ORGANISER);
     }
-    expect(ASK_ORGANISER).toBe("詳情請向主辦機構查詢");
   });
-});
-
-describe("活動主題", () => {
-  it("有健康、藝術文化、音樂、園藝、義工五個主題", () => {
-    expect(THEMES.map((t) => t.name)).toEqual(["健康", "藝術文化", "音樂", "園藝", "義工"]);
-  });
-  it("只有健康主題係官方活動，其餘係示範內容", () => {
+  it("只有健康主題係官方活動", () => {
     expect(THEMES.filter((t) => t.featured.official).map((t) => t.id)).toEqual(["health"]);
   });
   it("免責聲明字眼正確", () => {

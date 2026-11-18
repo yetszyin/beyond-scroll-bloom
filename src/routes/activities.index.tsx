@@ -79,7 +79,7 @@ function ActivitiesPage() {
             <p className="p-4 text-lg">一個人唔想出門？搵街坊一齊去，安全又開心！喺活動頁可以「發起結伴」。</p>
           </div>
           <div className="space-y-3">
-            {state.myPosts.map((p) => (
+            {state.buddyPosts.map((p) => (
               <BuddyPostCard key={p.id} id={p.id} author="陳伯伯（你）" authorNote="示範用戶" message={p.message} activityId={p.activityId} postedAgo="啱啱" baseJoined={0} mine />
             ))}
             <BuddyPostCard {...DEMO_BUDDY_POST} />

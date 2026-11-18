@@ -231,7 +231,7 @@ function BuddyDialog({ activity, open, onClose }: { activity: Activity; open: bo
           className="w-full"
           disabled={!msg.trim()}
           onClick={() => {
-            dispatch({ type: "createPost", activityId: activity.id, message: msg.trim() });
+            dispatch({ type: "createBuddyPost", activityId: activity.id, message: msg.trim() });
             toast.success("已發起示範結伴貼文，可喺「活動」頁睇到");
             onClose();
           }}

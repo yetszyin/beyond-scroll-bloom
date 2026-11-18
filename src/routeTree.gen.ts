@@ -10,19 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ChallengesRouteImport } from './routes/challenges'
 import { Route as MeRouteImport } from './routes/me'
 import { Route as ActivitiesIndexRouteImport } from './routes/activities.index'
 import { Route as ActivitiesThemeRouteImport } from './routes/activities.$theme'
+import { Route as ActivitiesFeedRouteImport } from './routes/activities.feed'
+import { Route as ChallengesIndexRouteImport } from './routes/challenges.index'
+import { Route as ChallengesWalkRouteImport } from './routes/challenges.walk'
+import { Route as ChallengesCourseCourseIdRouteImport } from './routes/challenges.course.$courseId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChallengesRoute = ChallengesRouteImport.update({
-  id: '/challenges',
-  path: '/challenges',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MeRoute = MeRouteImport.update({
@@ -40,49 +38,101 @@ const ActivitiesThemeRoute = ActivitiesThemeRouteImport.update({
   path: '/activities/$theme',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ActivitiesFeedRoute = ActivitiesFeedRouteImport.update({
+  id: '/activities/feed',
+  path: '/activities/feed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChallengesIndexRoute = ChallengesIndexRouteImport.update({
+  id: '/challenges/',
+  path: '/challenges/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChallengesWalkRoute = ChallengesWalkRouteImport.update({
+  id: '/challenges/walk',
+  path: '/challenges/walk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChallengesCourseCourseIdRoute =
+  ChallengesCourseCourseIdRouteImport.update({
+    id: '/challenges/course/$courseId',
+    path: '/challenges/course/$courseId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/challenges': typeof ChallengesRoute
   '/me': typeof MeRoute
   '/activities/$theme': typeof ActivitiesThemeRoute
+  '/activities/feed': typeof ActivitiesFeedRoute
+  '/challenges/walk': typeof ChallengesWalkRoute
   '/activities/': typeof ActivitiesIndexRoute
+  '/challenges/': typeof ChallengesIndexRoute
+  '/challenges/course/$courseId': typeof ChallengesCourseCourseIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/challenges': typeof ChallengesRoute
   '/me': typeof MeRoute
   '/activities/$theme': typeof ActivitiesThemeRoute
+  '/activities/feed': typeof ActivitiesFeedRoute
+  '/challenges/walk': typeof ChallengesWalkRoute
   '/activities': typeof ActivitiesIndexRoute
+  '/challenges': typeof ChallengesIndexRoute
+  '/challenges/course/$courseId': typeof ChallengesCourseCourseIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/challenges': typeof ChallengesRoute
   '/me': typeof MeRoute
   '/activities/$theme': typeof ActivitiesThemeRoute
+  '/activities/feed': typeof ActivitiesFeedRoute
+  '/challenges/walk': typeof ChallengesWalkRoute
   '/activities/': typeof ActivitiesIndexRoute
+  '/challenges/': typeof ChallengesIndexRoute
+  '/challenges/course/$courseId': typeof ChallengesCourseCourseIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/challenges' | '/me' | '/activities/$theme' | '/activities/'
+  fullPaths:
+    | '/'
+    | '/me'
+    | '/activities/$theme'
+    | '/activities/feed'
+    | '/challenges/walk'
+    | '/activities/'
+    | '/challenges/'
+    | '/challenges/course/$courseId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/challenges' | '/me' | '/activities/$theme' | '/activities'
+  to:
+    | '/'
+    | '/me'
+    | '/activities/$theme'
+    | '/activities/feed'
+    | '/challenges/walk'
+    | '/activities'
+    | '/challenges'
+    | '/challenges/course/$courseId'
   id:
     | '__root__'
     | '/'
-    | '/challenges'
     | '/me'
     | '/activities/$theme'
+    | '/activities/feed'
+    | '/challenges/walk'
     | '/activities/'
+    | '/challenges/'
+    | '/challenges/course/$courseId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ChallengesRoute: typeof ChallengesRoute
   MeRoute: typeof MeRoute
   ActivitiesThemeRoute: typeof ActivitiesThemeRoute
+  ActivitiesFeedRoute: typeof ActivitiesFeedRoute
+  ChallengesWalkRoute: typeof ChallengesWalkRoute
   ActivitiesIndexRoute: typeof ActivitiesIndexRoute
+  ChallengesIndexRoute: typeof ChallengesIndexRoute
+  ChallengesCourseCourseIdRoute: typeof ChallengesCourseCourseIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -92,13 +142,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/challenges': {
-      id: '/challenges'
-      path: '/challenges'
-      fullPath: '/challenges'
-      preLoaderRoute: typeof ChallengesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/me': {
@@ -122,15 +165,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ActivitiesThemeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/activities/feed': {
+      id: '/activities/feed'
+      path: '/activities/feed'
+      fullPath: '/activities/feed'
+      preLoaderRoute: typeof ActivitiesFeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/challenges/': {
+      id: '/challenges/'
+      path: '/challenges'
+      fullPath: '/challenges/'
+      preLoaderRoute: typeof ChallengesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/challenges/walk': {
+      id: '/challenges/walk'
+      path: '/challenges/walk'
+      fullPath: '/challenges/walk'
+      preLoaderRoute: typeof ChallengesWalkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/challenges/course/$courseId': {
+      id: '/challenges/course/$courseId'
+      path: '/challenges/course/$courseId'
+      fullPath: '/challenges/course/$courseId'
+      preLoaderRoute: typeof ChallengesCourseCourseIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ChallengesRoute: ChallengesRoute,
   MeRoute: MeRoute,
   ActivitiesThemeRoute: ActivitiesThemeRoute,
+  ActivitiesFeedRoute: ActivitiesFeedRoute,
+  ChallengesWalkRoute: ChallengesWalkRoute,
   ActivitiesIndexRoute: ActivitiesIndexRoute,
+  ChallengesIndexRoute: ChallengesIndexRoute,
+  ChallengesCourseCourseIdRoute: ChallengesCourseCourseIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
