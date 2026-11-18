@@ -20,6 +20,7 @@ const buttonVariants = cva(
         forest: "bg-primary text-primary-foreground font-bold shadow-[var(--shadow-card)] hover:bg-primary-deep active:scale-[0.98]",
         sage: "bg-sage-soft text-secondary-foreground font-bold border border-sage hover:bg-secondary active:scale-[0.98]",
         soft: "bg-card text-foreground font-bold border-2 border-border hover:bg-muted active:scale-[0.98]",
+        sunrise: "bg-gradient-sunrise text-accent-foreground font-bold shadow-[var(--shadow-cta)] active:scale-[0.98]",
       },
       size: {
         default: "h-9 px-4 py-2",

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronRight, Footprints, Play } from "lucide-react";
+import { ChevronRight, Footprints, Play, Brain } from "lucide-react";
 
 import stretchImg from "@/assets/stretch-chair.jpg";
 import eyeImg from "@/assets/eye-relax.jpg";
@@ -12,9 +12,9 @@ export const Route = createFileRoute("/challenges/")({
   head: () => ({
     meta: [
       { title: "挑戰｜智齡樂活 Silver Spark" },
-      { name: "description", content: "散步計時記錄、跟做伸展運動同眼部運動，完成後可以分享到 App 內朋友圈。" },
+      { name: "description", content: "散步跑步計時記錄、跟做伸展運動同眼部運動，仲有動動腦筋小遊戲。" },
       { property: "og:title", content: "今日挑戰｜智齡樂活 Silver Spark" },
-      { property: "og:description", content: "散步、伸展運動、眼部運動，一按就開始。" },
+      { property: "og:description", content: "散步、跑步、伸展運動、眼部運動、動腦筋，一按就開始。" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -32,16 +32,28 @@ function ChallengesPage() {
         <CheckInStats compact />
 
         <section>
-          <SectionTitle>🚶 散步</SectionTitle>
+          <SectionTitle>🚶 散步 / 跑步</SectionTitle>
           <div className="rounded-4xl bg-gradient-sunrise p-5 shadow-[var(--shadow-cta)]">
-            <p className="text-2xl font-bold text-accent-foreground">出去行吓，記低每一步</p>
-            <p className="mt-1 text-lg text-accent-foreground">按開始就計時，行完填返距離</p>
+            <p className="text-2xl font-bold text-accent-foreground">出去郁動吓，記低每一步</p>
+            <p className="mt-1 text-lg text-accent-foreground">揀散步或者跑步，按開始就計時</p>
             <Button asChild variant="forest" size="xxl" className="mt-4 w-full">
               <Link to="/challenges/walk">
-                <Footprints /> 開始散步
+                <Footprints /> 開始散步 / 跑步
               </Link>
             </Button>
           </div>
+        </section>
+
+        <section>
+          <SectionTitle>🧠 動動腦筋</SectionTitle>
+          <Link to="/challenges/brain" className="tap app-card flex items-center gap-4 p-5">
+            <span className="flex size-16 shrink-0 items-center justify-center rounded-3xl bg-sage-soft text-4xl" aria-hidden>🧠</span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-2xl font-bold text-primary-deep">動動腦筋</span>
+              <span className="block text-lg text-muted-foreground">記憶・邏輯・常識・眼力，日日郁一郁腦</span>
+            </span>
+            <ChevronRight className="size-8 shrink-0 text-muted-foreground" />
+          </Link>
         </section>
 
         <section>

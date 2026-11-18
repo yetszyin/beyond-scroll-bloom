@@ -26,21 +26,10 @@ function dateKey(d: Date): string {
   return `${y}-${m}-${day}`;
 }
 
-/** 依今天日期生成最近 7 天的示範數據（今天排最後）。 */
-export function demoWeek(daysOffsetToday = 0): DayScreenTime[] {
-  const base = new Date();
-  base.setDate(base.getDate() + daysOffsetToday);
-  const pattern = [95, 140, 110, 165, 88, 122, 0];
-  return pattern.map((minutes, i) => {
-    const d = new Date(base);
-    d.setDate(d.getDate() - (6 - i));
-    const isToday = i === 6;
-    return {
-      date: dateKey(d),
-      minutes: isToday ? 96 : minutes,
-      activeMinutes: isToday ? 41 : Math.round(minutes * 0.35),
-    };
-  });
+/** 今日的示範螢幕使用時間數據。 */
+export function demoToday(daysOffsetToday = 0): DayScreenTime {
+  const week = demoWeek(daysOffsetToday);
+  return week[week.length - 1];
 }
 
 /** 友善、不批判的鼓勵語句，按使用情況挑選。 */

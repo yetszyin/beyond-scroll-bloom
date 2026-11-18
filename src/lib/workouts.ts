@@ -1,16 +1,18 @@
 // Activity records (walk / stretch / eye) and the date maths behind the check-in calendar.
 // Pure functions only so the rules can be unit-tested.
 
-export type WorkoutType = "walk" | "stretch" | "eye";
+export type WorkoutType = "walk" | "run" | "stretch" | "eye";
 
 export const WORKOUT_LABEL: Record<WorkoutType, string> = {
   walk: "散步",
+  run: "跑步",
   stretch: "伸展運動",
   eye: "眼部運動",
 };
 
 export const WORKOUT_EMOJI: Record<WorkoutType, string> = {
   walk: "🚶",
+  run: "🏃",
   stretch: "🧘",
   eye: "👀",
 };
@@ -21,8 +23,10 @@ export interface Workout {
   /** local date key YYYY-MM-DD */
   date: string;
   durationSec: number;
-  /** walk only, manually entered by the user */
+  /** walk / run only, manually entered by the user */
   distanceKm?: number;
+  /** walk / run only, optionally entered from a pedometer */
+  steps?: number;
   courseId?: string;
   courseTitle?: string;
   /** seeded sample record, shown with a 示範 label */

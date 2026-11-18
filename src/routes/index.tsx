@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ChevronRight, Footprints, Eye, Armchair, Users, CalendarHeart } from "lucide-react";
+import { ChevronRight, Footprints, Eye, Armchair, Users, CalendarHeart, Brain } from "lucide-react";
 
 import heroPark from "@/assets/hero-park.jpg";
 import { useAppState } from "@/components/app/AppStateProvider";
@@ -8,6 +8,7 @@ import { CheckInStats } from "@/components/app/CheckInCalendar";
 import { SectionTitle } from "@/components/app/common";
 import { ScreenTimeCard } from "@/components/app/ScreenTimeCard";
 import { WorkoutRow } from "@/components/app/workout-ui";
+import { dailyGameIndex, gameMeta } from "@/lib/brain";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,6 +39,7 @@ function HomePage() {
   const { state, ready } = useAppState();
   const { hello, date } = useGreeting();
   const recent = state.workouts.slice(0, 3);
+  const todayBrain = gameMeta(dailyGameIndex(new Date()));
 
   return (
     <div className="space-y-7">
@@ -56,13 +58,23 @@ function HomePage() {
       </section>
 
       <section className="space-y-3 px-5">
+        <Link to="/challenges/brain" className="tap app-card flex items-center gap-4 border-2 border-primary/30 bg-sage-soft/60 p-5">
+          <span className="flex size-16 shrink-0 items-center justify-center rounded-3xl bg-primary text-primary-foreground">
+            <Brain className="size-9" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-2xl font-bold text-primary-deep">今日動動腦</span>
+            <span className="block text-lg text-muted-foreground">{todayBrain.emoji} {todayBrain.title}：{todayBrain.subtitle}</span>
+          </span>
+          <ChevronRight className="size-8 shrink-0 text-muted-foreground" />
+        </Link>
         <Link to="/challenges/walk" className="tap flex items-center gap-4 rounded-4xl bg-gradient-sunrise p-5 shadow-[var(--shadow-cta)]">
           <span className="flex size-16 shrink-0 items-center justify-center rounded-3xl bg-card text-accent-foreground">
             <Footprints className="size-9" />
           </span>
           <span className="flex-1">
-            <span className="block text-2xl font-bold text-accent-foreground">開始散步</span>
-            <span className="block text-lg text-accent-foreground">計時＋記錄距離</span>
+            <span className="block text-2xl font-bold text-accent-foreground">開始散步 / 跑步</span>
+            <span className="block text-lg text-accent-foreground">計時＋記錄距離同步數</span>
           </span>
           <ChevronRight className="size-8 text-accent-foreground" />
         </Link>

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 import { HeartPulse, Palette, Music, Sprout, HandHeart, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DISCLAIMER, type Theme, type ThemeId } from "@/lib/demo-data";
@@ -11,14 +12,31 @@ export function DemoStrip() {
   );
 }
 
-export function PageHeader({ title, subtitle, right }: { title: string; subtitle?: string; right?: ReactNode }) {
+export function PageHeader({
+  title,
+  subtitle,
+  right,
+  back,
+}: {
+  title: string;
+  subtitle?: string;
+  right?: ReactNode;
+  back?: { label: string; to: string };
+}) {
   return (
-    <header className="flex items-start justify-between gap-3 px-5 pb-2 pt-6">
-      <div>
-        <h1 className="text-3xl font-bold text-primary-deep">{title}</h1>
-        {subtitle && <p className="mt-1 text-lg text-muted-foreground">{subtitle}</p>}
+    <header className="px-5 pb-2 pt-6">
+      {back && (
+        <Link to={back.to} className="tap -ml-2 inline-flex items-center gap-1 rounded-full px-2 py-1 text-lg font-bold">
+          <span aria-hidden>‹</span> {back.label}
+        </Link>
+      )}
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h1 className="text-3xl font-bold text-primary-deep">{title}</h1>
+          {subtitle && <p className="mt-1 text-lg text-muted-foreground">{subtitle}</p>}
+        </div>
+        {right}
       </div>
-      {right}
     </header>
   );
 }

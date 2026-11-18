@@ -1,5 +1,6 @@
 // Pure, front-end-only state for the demo. Nothing here is sent anywhere.
 import type { Workout, WorkoutType } from "@/lib/workouts";
+import type { BrainResult } from "@/lib/brain";
 
 export interface BuddyPost {
   id: string;
@@ -28,6 +29,8 @@ export interface AppState {
   invites: { activityId: string; friendId: string }[];
   joinedPosts: string[];
   buddyPosts: BuddyPost[];
+  /** completed brain-game rounds, newest first (local demo record) */
+  brainResults: BrainResult[];
 }
 
 export const INITIAL_STATE: AppState = {
@@ -38,6 +41,7 @@ export const INITIAL_STATE: AppState = {
   invites: [],
   joinedPosts: [],
   buddyPosts: [],
+  brainResults: [],
 };
 
 let counter = 0;
@@ -54,6 +58,7 @@ export type Action =
   | { type: "invite"; activityId: string; friendIds: string[]; friendNames: string[] }
   | { type: "toggleJoin"; postId: string; label: string }
   | { type: "createBuddyPost"; activityId: string; message: string }
+  | { type: "addBrainResult"; result: BrainResult }
   | { type: "hydrate"; state: AppState }
   | { type: "reset"; state: AppState };
 
@@ -72,7 +77,7 @@ export function reducer(state: AppState, action: Action): AppState {
         type: w.type,
         date: w.date,
         durationSec: w.durationSec,
-        ...(w.type === "walk" && w.distanceKm !== undefined ? { distanceKm: w.distanceKm } : {}),
+        ...(w.type === "walk" || w.type === "run") && w.distanceKm !== undefined ? { distanceKm: w.distanceKm } : {},
         ...(w.courseTitle ? { courseTitle: w.courseTitle } : {}),
         text: action.text.trim(),
       };
@@ -109,6 +114,9 @@ export function reducer(state: AppState, action: Action): AppState {
     case "createBuddyPost": {
       const post: BuddyPost = { id: newId("post"), author: "陳伯伯", activityId: action.activityId, message: action.message };
       return { ...state, buddyPosts: [post, ...state.buddyPosts] };
+    }
+    case "addBrainResult": {
+      return { ...state, brainResults: [action.result, ...state.brainResults] };
     }
     case "hydrate":
     case "reset":

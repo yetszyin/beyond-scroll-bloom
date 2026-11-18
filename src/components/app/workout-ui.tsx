@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { CalendarDays, CheckCircle2, Clock, Heart, Route as RouteIcon, Share2 } from "lucide-react";
+import { CalendarDays, CheckCircle2, Clock, Footprints, Heart, Route as RouteIcon, Share2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { useAppState } from "@/components/app/AppStateProvider";
@@ -12,12 +12,14 @@ import { WORKOUT_EMOJI, WORKOUT_LABEL, formatDateKey, formatDuration, type Worko
 
 export const TYPE_TONE: Record<WorkoutType, string> = {
   walk: "bg-accent-soft text-accent-foreground",
+  run: "bg-flower-soft text-flower",
   stretch: "bg-sage-soft text-secondary-foreground",
   eye: "bg-sky-soft text-foreground",
 };
 
 export const TYPE_DOT: Record<WorkoutType, string> = {
   walk: "bg-accent",
+  run: "bg-flower",
   stretch: "bg-primary",
   eye: "bg-chart-5",
 };
@@ -37,6 +39,7 @@ export function WorkoutRow({ w }: { w: Workout }) {
         <p className="text-base text-muted-foreground">
           {formatDuration(w.durationSec)}
           {w.distanceKm !== undefined && `・${w.distanceKm} 公里`}
+          {w.steps !== undefined && `・${w.steps.toLocaleString()} 步`}
         </p>
       </div>
       <div className="shrink-0 text-right">
@@ -66,12 +69,15 @@ export function WorkoutFinish({ workout, againLabel, onAgain }: { workout: Worko
       <div className="app-card divide-y divide-border">
         <SummaryRow icon={CalendarDays} label="日期" value={formatDateKey(workout.date)} />
         <SummaryRow icon={Clock} label="總時間" value={formatDuration(workout.durationSec)} />
-        {workout.type === "walk" && (
+        {workout.type === "walk" || workout.type === "run" ? (
           <SummaryRow
             icon={RouteIcon}
-            label="步行距離（手動輸入）"
+            label={`${workout.type === "walk" ? "步行" : "跑步"}距離（手動輸入）`}
             value={workout.distanceKm !== undefined ? `${workout.distanceKm} 公里` : "未有填寫"}
           />
+        ) : null}
+        {(workout.type === "walk" || workout.type === "run") && workout.steps !== undefined && (
+          <SummaryRow icon={Footprints} label="步數" value={`${workout.steps.toLocaleString()} 步`} />
         )}
       </div>
       <p className="text-center text-base text-muted-foreground">已記錄到你嘅打卡日曆 📅</p>
@@ -202,7 +208,7 @@ export function FeedCard({
           <p className="text-lg font-bold">{workoutTitle({ type, courseTitle })}</p>
           <p className="text-base">
             {formatDuration(durationSec)}
-            {type === "walk" && distanceKm !== undefined && `・${distanceKm} 公里`}
+            {(type === "walk" || type === "run") && distanceKm !== undefined && `・${distanceKm} 公里`}
           </p>
         </div>
       </div>
