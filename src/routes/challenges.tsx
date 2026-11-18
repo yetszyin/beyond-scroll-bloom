@@ -132,7 +132,7 @@ function EyeExercise() {
 
   useEffect(() => {
     if (step < 0 || step >= EYE_STEPS.length) return;
-    setLeft(EYE_STEPS[step].seconds);
+    setLeft(EYE_STEPS[step]?.seconds ?? 0);
     const t = window.setInterval(() => setLeft((s) => (s > 0 ? s - 1 : 0)), 1000);
     return () => window.clearInterval(t);
   }, [step]);
@@ -172,7 +172,7 @@ function EyeExercise() {
       <p className="text-base text-muted-foreground">
         第 {step + 1} / {EYE_STEPS.length} 步
       </p>
-      <p className="text-2xl font-bold text-primary-deep">{EYE_STEPS[step].text}</p>
+      <p className="text-2xl font-bold text-primary-deep">{EYE_STEPS[step]?.text}</p>
       <p className="text-6xl font-black tabular-nums text-accent-foreground" aria-live="polite">
         {left}
         <span className="ml-1 text-2xl">秒</span>

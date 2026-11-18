@@ -15,7 +15,9 @@ function shuffled(): Card[] {
   const deck = [...SYMBOLS, ...SYMBOLS].map((symbol, key) => ({ key, symbol, matched: false }));
   for (let i = deck.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
+    const tmp = deck[i]!;
+    deck[i] = deck[j]!;
+    deck[j] = tmp;
   }
   return deck;
 }
@@ -37,10 +39,11 @@ export function MemoryGame({ onWin }: { onWin: (moves: number) => void }) {
 
   useEffect(() => {
     if (!cards || open.length !== 2) return;
-    const [a, b] = open;
+    const [a, b] = open as [number, number];
+    const isMatch = cards[a]?.symbol === cards[b]?.symbol;
     const t = window.setTimeout(
       () => {
-        if (cards[a].symbol === cards[b].symbol) {
+        if (isMatch) {
           const next = cards.map((c, i) => (i === a || i === b ? { ...c, matched: true } : c));
           setCards(next);
           if (next.every((c) => c.matched)) {
@@ -50,13 +53,13 @@ export function MemoryGame({ onWin }: { onWin: (moves: number) => void }) {
         }
         setOpen([]);
       },
-      cards[a].symbol === cards[b].symbol ? 350 : 900,
+      isMatch ? 350 : 900,
     );
     return () => window.clearTimeout(t);
   }, [open, cards, moves]);
 
   const flip = (i: number) => {
-    if (!cards || open.length === 2 || open.includes(i) || cards[i].matched) return;
+    if (!cards || open.length === 2 || open.includes(i) || cards[i]?.matched) return;
     if (open.length === 1) setMoves((m) => m + 1);
     setOpen((o) => [...o, i]);
   };
